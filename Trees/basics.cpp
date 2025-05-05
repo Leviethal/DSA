@@ -180,19 +180,23 @@ void rightView(Node* root) {
     cout << endl;
 }
 
-void topView(Node* root) {
-    if(!root) return;
-    map<int, int> topNode;
-    queue<pair<Node*, int>> q;
-    q.push({root, 0});
-    while(!q.empty()) {
-        auto [node, hd] = q.front(); q.pop();
-        if(topNode.find(hd) == topNode.end())
-            topNode[hd] = node->data;
-        if(node->left) q.push({node->left, hd - 1});
-        if(node->right) q.push({node->right, hd + 1});
+void dfs(Node* node, int hd, int level, map<int, pair<int, int>>& topNode) {
+    if (!node) return;
+
+    // If this HD is not seen before or the current node is at a higher level (i.e., smaller depth)
+    if (topNode.find(hd) == topNode.end() || level < topNode[hd].second) {
+        topNode[hd] = {node->data, level};
     }
-    for(auto& [_, val] : topNode) cout << val << " ";
+
+    dfs(node->left, hd - 1, level + 1, topNode);
+    dfs(node->right, hd + 1, level + 1, topNode);
+}
+
+void topView(Node* root) {
+    map<int, pair<int, int>> topNode;  // hd -> {value, level}
+    dfs(root, 0, 0, topNode);
+    for (auto& [hd, val] : topNode)
+        cout << val.first << " ";
     cout << endl;
 }
 
