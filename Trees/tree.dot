@@ -1,0 +1,9 @@
+digraph BinaryTree {
+    node [shape=circle, style=filled, fillcolor=lightblue];
+    10 -> 5;
+    10 -> 15;
+    5 -> 2;
+    5 -> 7;
+    15 -> 12;
+    15 -> 20;
+}
